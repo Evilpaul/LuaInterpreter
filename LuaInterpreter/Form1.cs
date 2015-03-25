@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using MoonSharp.Interpreter;
+using System.Threading.Tasks;
 
 namespace LuaInterpreter
 {
@@ -47,30 +48,33 @@ return fact(5)";
 			progress_hmi.Report(true);
 		}
 
-		private void runScript(string code)
+		private Task runScript(string code)
 		{
-			try
-			{
-				DynValue res = Script.RunString(code);
-				if (res.Type != DataType.Void)
-					progress_str.Report(res.ToString());
-			}
-			catch (InterpreterException ex)
-			{
-				progress_str.Report(ex.DecoratedMessage);
-			}
-			catch (Exception ex)
-			{
-				progress_str.Report(ex.Message);
-			}
+			return Task.Run(() =>
+				{
+					try
+					{
+						DynValue res = Script.RunString(code);
+						if (res.Type != DataType.Void)
+							progress_str.Report(res.ToString());
+					}
+					catch (InterpreterException ex)
+					{
+						progress_str.Report(ex.DecoratedMessage);
+					}
+					catch (Exception ex)
+					{
+						progress_str.Report(ex.Message);
+					}
+				});
 		}
 
-		private void runButton_Click(object sender, EventArgs e)
+		private async void runButton_Click(object sender, EventArgs e)
 		{
 			outputListBox.Items.Clear();
 			progress_hmi.Report(false);
 
-			runScript(inputTextBox.Text);
+			await runScript(inputTextBox.Text);
 
 			progress_hmi.Report(true);
 		}
