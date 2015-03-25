@@ -6,9 +6,17 @@ namespace LuaInterpreter
 {
 	public partial class Form1 : Form
 	{
+		private IProgress<string> progress_str;
+
 		public Form1()
 		{
 			InitializeComponent();
+
+			progress_str = new Progress<string>(status =>
+			{
+				outputListBox.Items.Add(status);
+				outputListBox.TopIndex = outputListBox.Items.Count - 1;
+			});
 
 			inputTextBox.Text = @"-- defines a factorial function
 function fact (n)
@@ -23,7 +31,7 @@ return fact(5)";
 
 			Script.DefaultOptions.DebugPrint = s =>
 			{
-				outputListBox.Items.Add(s);
+				progress_str.Report(s);
 			};
 			Script.RunString("print (_VERSION)");
 		}
@@ -35,15 +43,15 @@ return fact(5)";
 			try
 			{
 				DynValue res = Script.RunString(inputTextBox.Text);
-				outputListBox.Items.Add(res.ToString());
+				progress_str.Report(res.ToString());
 			}
 			catch (InterpreterException ex)
 			{
-				outputListBox.Items.Add(ex.DecoratedMessage);
+				progress_str.Report(ex.DecoratedMessage);
 			}
 			catch (Exception ex)
 			{
-				outputListBox.Items.Add(ex.Message);
+				progress_str.Report(ex.Message);
 			}
 		}
 	}
