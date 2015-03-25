@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using MoonSharp.Interpreter;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace LuaInterpreter
 {
@@ -42,6 +43,9 @@ namespace LuaInterpreter
 		{
 			return Task.Run(() =>
 				{
+					Stopwatch sw = new Stopwatch();
+					sw.Start();
+
 					try
 					{
 						DynValue res = Script.RunString(code);
@@ -56,6 +60,9 @@ namespace LuaInterpreter
 					{
 						progress_str.Report(ex.Message);
 					}
+
+					sw.Stop();
+					progress_str.Report("Script completed in : " + sw.ElapsedMilliseconds + "ms");
 				});
 		}
 
