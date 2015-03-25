@@ -46,7 +46,7 @@ namespace LuaInterpreter
 					{
 						DynValue res = Script.RunString(code);
 						if (res.Type != DataType.Void)
-							progress_str.Report(res.ToString());
+							progress_str.Report("Return value : " + res.ToString());
 					}
 					catch (InterpreterException ex)
 					{
