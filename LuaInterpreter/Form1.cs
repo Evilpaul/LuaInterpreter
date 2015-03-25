@@ -26,21 +26,11 @@ namespace LuaInterpreter
 				inputTextBox.Enabled = status;
 			});
 
-			inputTextBox.Text = @"-- defines a factorial function
-function fact (n)
-	if (n == 0) then
-		return 1
-	else
-		return n*fact(n - 1)
-	end
-end
-
-return fact(5)";
-
 			Script.DefaultOptions.DebugPrint = s =>
 			{
 				progress_str.Report(s);
 			};
+
 			progress_hmi.Report(false);
 
 			runScript("print (_VERSION)");
@@ -77,6 +67,11 @@ return fact(5)";
 			await runScript(inputTextBox.Text);
 
 			progress_hmi.Report(true);
+		}
+
+		private void toolStripMenuItem_clear_Click(object sender, EventArgs e)
+		{
+			outputListBox.Items.Clear();
 		}
 	}
 }

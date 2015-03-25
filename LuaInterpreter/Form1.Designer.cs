@@ -28,15 +28,19 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.runButton = new System.Windows.Forms.Button();
 			this.inputGroupBox = new System.Windows.Forms.GroupBox();
+			this.inputTextBox = new System.Windows.Forms.TextBox();
 			this.outputGroupBox = new System.Windows.Forms.GroupBox();
 			this.outputListBox = new System.Windows.Forms.ListBox();
-			this.inputTextBox = new System.Windows.Forms.TextBox();
+			this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.toolStripMenuItem_clear = new System.Windows.Forms.ToolStripMenuItem();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.inputGroupBox.SuspendLayout();
 			this.outputGroupBox.SuspendLayout();
+			this.contextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tableLayoutPanel1
@@ -77,6 +81,22 @@
 			this.inputGroupBox.TabStop = false;
 			this.inputGroupBox.Text = "Input";
 			// 
+			// inputTextBox
+			// 
+			this.inputTextBox.AcceptsReturn = true;
+			this.inputTextBox.AcceptsTab = true;
+			this.inputTextBox.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.inputTextBox.Location = new System.Drawing.Point(6, 19);
+			this.inputTextBox.MaxLength = 1677215;
+			this.inputTextBox.Multiline = true;
+			this.inputTextBox.Name = "inputTextBox";
+			this.inputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.inputTextBox.Size = new System.Drawing.Size(660, 306);
+			this.inputTextBox.TabIndex = 0;
+			this.inputTextBox.Text = "-- defines a factorial function\r\nfunction fact (n)\r\n\tif (n == 0) then\r\n\t\treturn 1" +
+    "\r\n\telse\r\n\t\treturn n*fact(n - 1)\r\n\tend\r\nend\r\n\r\nreturn fact(5)";
+			this.inputTextBox.WordWrap = false;
+			// 
 			// outputGroupBox
 			// 
 			this.outputGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -90,6 +110,7 @@
 			// 
 			// outputListBox
 			// 
+			this.outputListBox.ContextMenuStrip = this.contextMenuStrip;
 			this.outputListBox.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.outputListBox.FormattingEnabled = true;
 			this.outputListBox.ItemHeight = 16;
@@ -98,19 +119,19 @@
 			this.outputListBox.Size = new System.Drawing.Size(660, 100);
 			this.outputListBox.TabIndex = 0;
 			// 
-			// inputTextBox
+			// contextMenuStrip
 			// 
-			this.inputTextBox.AcceptsReturn = true;
-			this.inputTextBox.AcceptsTab = true;
-			this.inputTextBox.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.inputTextBox.Location = new System.Drawing.Point(6, 19);
-			this.inputTextBox.MaxLength = 1677215;
-			this.inputTextBox.Multiline = true;
-			this.inputTextBox.Name = "inputTextBox";
-			this.inputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.inputTextBox.Size = new System.Drawing.Size(660, 306);
-			this.inputTextBox.TabIndex = 0;
-			this.inputTextBox.WordWrap = false;
+			this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem_clear});
+			this.contextMenuStrip.Name = "contextMenuStrip";
+			this.contextMenuStrip.Size = new System.Drawing.Size(153, 48);
+			// 
+			// toolStripMenuItem_clear
+			// 
+			this.toolStripMenuItem_clear.Name = "toolStripMenuItem_clear";
+			this.toolStripMenuItem_clear.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItem_clear.Text = "Clear";
+			this.toolStripMenuItem_clear.Click += new System.EventHandler(this.toolStripMenuItem_clear_Click);
 			// 
 			// Form1
 			// 
@@ -127,6 +148,7 @@
 			this.inputGroupBox.ResumeLayout(false);
 			this.inputGroupBox.PerformLayout();
 			this.outputGroupBox.ResumeLayout(false);
+			this.contextMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -139,6 +161,8 @@
 		private System.Windows.Forms.GroupBox outputGroupBox;
 		private System.Windows.Forms.ListBox outputListBox;
 		private System.Windows.Forms.TextBox inputTextBox;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_clear;
 
 	}
 }
