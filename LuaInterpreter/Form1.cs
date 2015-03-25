@@ -33,17 +33,16 @@ return fact(5)";
 			{
 				progress_str.Report(s);
 			};
-			Script.RunString("print (_VERSION)");
+			runScript("print (_VERSION)");
 		}
 
-		private void runButton_Click(object sender, EventArgs e)
+		private void runScript(string code)
 		{
-			outputListBox.Items.Clear();
-
 			try
 			{
-				DynValue res = Script.RunString(inputTextBox.Text);
-				progress_str.Report(res.ToString());
+				DynValue res = Script.RunString(code);
+				if (res.Type != DataType.Void)
+					progress_str.Report(res.ToString());
 			}
 			catch (InterpreterException ex)
 			{
@@ -53,6 +52,12 @@ return fact(5)";
 			{
 				progress_str.Report(ex.Message);
 			}
+		}
+
+		private void runButton_Click(object sender, EventArgs e)
+		{
+			outputListBox.Items.Clear();
+			runScript(inputTextBox.Text);
 		}
 	}
 }
