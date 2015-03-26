@@ -3,6 +3,8 @@ using System.Windows.Forms;
 using MoonSharp.Interpreter;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 
 namespace LuaInterpreter
 {
@@ -25,6 +27,8 @@ namespace LuaInterpreter
 			{
 				runButton.Enabled = status;
 				inputTextBox.Enabled = status;
+				openFileButton.Enabled = status;
+				saveFileButton.Enabled = status;
 			});
 
 			Script.DefaultOptions.DebugPrint = s =>
@@ -79,6 +83,55 @@ namespace LuaInterpreter
 		private void toolStripMenuItem_clear_Click(object sender, EventArgs e)
 		{
 			outputListBox.Items.Clear();
+		}
+
+		private async void openFileButton_Click(object sender, EventArgs e)
+		{
+			// Show the dialog and get result.
+			DialogResult result = openFileDialog.ShowDialog();
+			if (result == DialogResult.OK) // Test result.
+			{
+				progress_hmi.Report(false);
+
+				using (StreamReader sr = new StreamReader(openFileDialog.FileName))
+				{
+					StringBuilder sb = new StringBuilder(inputTextBox.MaxLength);
+					string currLine;
+
+					outputListBox.Items.Clear();
+					progress_str.Report("Opening " + openFileDialog.FileName);
+
+					while ((currLine = await sr.ReadLineAsync()) != null)
+					{
+						sb.AppendLine(currLine);
+					}
+					inputTextBox.Text = sb.ToString();
+				}
+
+				progress_hmi.Report(true);
+			}
+		}
+
+		private async void saveFileButton_Click(object sender, EventArgs e)
+		{
+			// Show the dialog and get result.
+			DialogResult result = saveFileDialog.ShowDialog();
+			if (result == DialogResult.OK) // Test result.
+			{
+				progress_hmi.Report(false);
+
+				using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName))
+				{
+					outputListBox.Items.Clear();
+					progress_str.Report("Saving " + openFileDialog.FileName);
+
+					await sw.WriteAsync(inputTextBox.Text);
+					await sw.FlushAsync();
+					sw.Close();
+				}
+
+				progress_hmi.Report(true);
+			}
 		}
 	}
 }

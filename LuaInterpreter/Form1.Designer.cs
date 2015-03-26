@@ -30,17 +30,23 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.runButton = new System.Windows.Forms.Button();
 			this.inputGroupBox = new System.Windows.Forms.GroupBox();
 			this.inputTextBox = new System.Windows.Forms.TextBox();
 			this.outputGroupBox = new System.Windows.Forms.GroupBox();
 			this.outputListBox = new System.Windows.Forms.ListBox();
 			this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuItem_clear = new System.Windows.Forms.ToolStripMenuItem();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.runButton = new System.Windows.Forms.Button();
+			this.openFileButton = new System.Windows.Forms.Button();
+			this.saveFileButton = new System.Windows.Forms.Button();
+			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.inputGroupBox.SuspendLayout();
 			this.outputGroupBox.SuspendLayout();
 			this.contextMenuStrip.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tableLayoutPanel1
@@ -48,9 +54,9 @@
 			this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.tableLayoutPanel1.ColumnCount = 1;
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.tableLayoutPanel1.Controls.Add(this.runButton, 0, 0);
 			this.tableLayoutPanel1.Controls.Add(this.inputGroupBox, 0, 1);
 			this.tableLayoutPanel1.Controls.Add(this.outputGroupBox, 0, 2);
+			this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 3;
@@ -59,16 +65,6 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 130F));
 			this.tableLayoutPanel1.Size = new System.Drawing.Size(678, 495);
 			this.tableLayoutPanel1.TabIndex = 0;
-			// 
-			// runButton
-			// 
-			this.runButton.Location = new System.Drawing.Point(3, 3);
-			this.runButton.Name = "runButton";
-			this.runButton.Size = new System.Drawing.Size(75, 21);
-			this.runButton.TabIndex = 0;
-			this.runButton.Text = "Run Code";
-			this.runButton.UseVisualStyleBackColor = true;
-			this.runButton.Click += new System.EventHandler(this.runButton_Click);
 			// 
 			// inputGroupBox
 			// 
@@ -124,14 +120,64 @@
 			this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem_clear});
 			this.contextMenuStrip.Name = "contextMenuStrip";
-			this.contextMenuStrip.Size = new System.Drawing.Size(153, 48);
+			this.contextMenuStrip.Size = new System.Drawing.Size(102, 26);
 			// 
 			// toolStripMenuItem_clear
 			// 
 			this.toolStripMenuItem_clear.Name = "toolStripMenuItem_clear";
-			this.toolStripMenuItem_clear.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItem_clear.Size = new System.Drawing.Size(101, 22);
 			this.toolStripMenuItem_clear.Text = "Clear";
 			this.toolStripMenuItem_clear.Click += new System.EventHandler(this.toolStripMenuItem_clear_Click);
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.runButton);
+			this.panel1.Controls.Add(this.openFileButton);
+			this.panel1.Controls.Add(this.saveFileButton);
+			this.panel1.Location = new System.Drawing.Point(3, 3);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(672, 21);
+			this.panel1.TabIndex = 3;
+			// 
+			// runButton
+			// 
+			this.runButton.Location = new System.Drawing.Point(3, 0);
+			this.runButton.Name = "runButton";
+			this.runButton.Size = new System.Drawing.Size(75, 21);
+			this.runButton.TabIndex = 0;
+			this.runButton.Text = "Run Code";
+			this.runButton.UseVisualStyleBackColor = true;
+			this.runButton.Click += new System.EventHandler(this.runButton_Click);
+			// 
+			// openFileButton
+			// 
+			this.openFileButton.Location = new System.Drawing.Point(513, -1);
+			this.openFileButton.Name = "openFileButton";
+			this.openFileButton.Size = new System.Drawing.Size(75, 23);
+			this.openFileButton.TabIndex = 1;
+			this.openFileButton.Text = "Open File";
+			this.openFileButton.UseVisualStyleBackColor = true;
+			this.openFileButton.Click += new System.EventHandler(this.openFileButton_Click);
+			// 
+			// saveFileButton
+			// 
+			this.saveFileButton.Location = new System.Drawing.Point(594, -1);
+			this.saveFileButton.Name = "saveFileButton";
+			this.saveFileButton.Size = new System.Drawing.Size(75, 23);
+			this.saveFileButton.TabIndex = 2;
+			this.saveFileButton.Text = "Save File";
+			this.saveFileButton.UseVisualStyleBackColor = true;
+			this.saveFileButton.Click += new System.EventHandler(this.saveFileButton_Click);
+			// 
+			// openFileDialog
+			// 
+			this.openFileDialog.FileName = "*.lua";
+			this.openFileDialog.Filter = "Lua files|*.lua|All files|*.*";
+			// 
+			// saveFileDialog
+			// 
+			this.saveFileDialog.DefaultExt = "lua";
+			this.saveFileDialog.Filter = "Lua files|*.lua|All files|*.*";
 			// 
 			// Form1
 			// 
@@ -149,6 +195,7 @@
 			this.inputGroupBox.PerformLayout();
 			this.outputGroupBox.ResumeLayout(false);
 			this.contextMenuStrip.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -163,6 +210,11 @@
 		private System.Windows.Forms.TextBox inputTextBox;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_clear;
+		private System.Windows.Forms.OpenFileDialog openFileDialog;
+		private System.Windows.Forms.SaveFileDialog saveFileDialog;
+		private System.Windows.Forms.Button openFileButton;
+		private System.Windows.Forms.Button saveFileButton;
+		private System.Windows.Forms.Panel panel1;
 
 	}
 }
