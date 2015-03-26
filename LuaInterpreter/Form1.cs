@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace LuaInterpreter
 {
@@ -12,6 +14,8 @@ namespace LuaInterpreter
 	{
 		private IProgress<string> progress_str;
 		private IProgress<bool> progress_hmi;
+
+		private Thread t_work;
 
 		public Form1()
 		{
@@ -29,6 +33,7 @@ namespace LuaInterpreter
 				inputTextBox.Enabled = status;
 				openFileButton.Enabled = status;
 				saveFileButton.Enabled = status;
+				timeoutTextBox.Enabled = status;
 			});
 
 			Script.DefaultOptions.DebugPrint = s =>
@@ -49,6 +54,8 @@ namespace LuaInterpreter
 				{
 					Stopwatch sw = new Stopwatch();
 					sw.Start();
+
+					t_work = Thread.CurrentThread;
 
 					try
 					{
@@ -75,7 +82,23 @@ namespace LuaInterpreter
 			outputListBox.Items.Clear();
 			progress_hmi.Report(false);
 
-			await runScript(inputTextBox.Text);
+			if (String.IsNullOrEmpty(timeoutTextBox.Text))
+			{
+				progress_str.Report("Timeout value is invalid");
+			}
+			else
+			{
+				var task = runScript(inputTextBox.Text);
+				if (task == await Task.WhenAny(task, Task.Delay(Convert.ToInt16(timeoutTextBox.Text))))
+				{
+					await task;
+				}
+				else
+				{
+					t_work.Abort();
+					progress_str.Report("Timeout reached, aborting...");
+				}
+			}
 
 			progress_hmi.Report(true);
 		}
@@ -131,6 +154,14 @@ namespace LuaInterpreter
 				}
 
 				progress_hmi.Report(true);
+			}
+		}
+
+		private void timeoutTextBox_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (!Regex.IsMatch(e.KeyChar.ToString(), "^[0-9\b]+$"))
+			{
+				e.Handled = true;
 			}
 		}
 	}

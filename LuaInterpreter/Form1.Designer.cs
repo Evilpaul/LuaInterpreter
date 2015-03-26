@@ -42,6 +42,10 @@
 			this.saveFileButton = new System.Windows.Forms.Button();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+			this.timeoutLabel = new System.Windows.Forms.Label();
+			this.timeoutTextBox = new System.Windows.Forms.TextBox();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tableLayoutPanel1.SuspendLayout();
 			this.inputGroupBox.SuspendLayout();
 			this.outputGroupBox.SuspendLayout();
@@ -131,6 +135,8 @@
 			// 
 			// panel1
 			// 
+			this.panel1.Controls.Add(this.timeoutTextBox);
+			this.panel1.Controls.Add(this.timeoutLabel);
 			this.panel1.Controls.Add(this.runButton);
 			this.panel1.Controls.Add(this.openFileButton);
 			this.panel1.Controls.Add(this.saveFileButton);
@@ -179,6 +185,32 @@
 			this.saveFileDialog.DefaultExt = "lua";
 			this.saveFileDialog.Filter = "Lua files|*.lua|All files|*.*";
 			// 
+			// timeoutLabel
+			// 
+			this.timeoutLabel.AutoSize = true;
+			this.timeoutLabel.Location = new System.Drawing.Point(130, 4);
+			this.timeoutLabel.Name = "timeoutLabel";
+			this.timeoutLabel.Size = new System.Drawing.Size(45, 13);
+			this.timeoutLabel.TabIndex = 3;
+			this.timeoutLabel.Text = "Timeout";
+			// 
+			// timeoutTextBox
+			// 
+			this.timeoutTextBox.ContextMenuStrip = this.contextMenuStrip1;
+			this.timeoutTextBox.Location = new System.Drawing.Point(181, 1);
+			this.timeoutTextBox.Name = "timeoutTextBox";
+			this.timeoutTextBox.Size = new System.Drawing.Size(100, 20);
+			this.timeoutTextBox.TabIndex = 4;
+			this.timeoutTextBox.Text = "500";
+			this.toolTip1.SetToolTip(this.timeoutTextBox, "Nominal timout in millisceconds\r\n\r\nHigh processing (especially text output) will " +
+        "skew the actual timout period.");
+			this.timeoutTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.timeoutTextBox_KeyPress);
+			// 
+			// contextMenuStrip1
+			// 
+			this.contextMenuStrip1.Name = "contextMenuStrip1";
+			this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -196,6 +228,7 @@
 			this.outputGroupBox.ResumeLayout(false);
 			this.contextMenuStrip.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -215,6 +248,10 @@
 		private System.Windows.Forms.Button openFileButton;
 		private System.Windows.Forms.Button saveFileButton;
 		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.TextBox timeoutTextBox;
+		private System.Windows.Forms.ToolTip toolTip1;
+		private System.Windows.Forms.Label timeoutLabel;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
 
 	}
 }
