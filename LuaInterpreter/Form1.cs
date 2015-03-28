@@ -15,6 +15,7 @@ namespace LuaInterpreter
 	{
 		private IProgress<string> progress_str;
 		private IProgress<bool> progress_hmi;
+		private IProgress<bool> progress_mass;
 
 		private List<string> out_list;
 
@@ -41,6 +42,14 @@ namespace LuaInterpreter
 				timeoutTextBox.Enabled = status;
 			});
 
+			progress_mass = new Progress<bool>(StatusBar =>
+			{
+				outputListBox.Items.AddRange(out_list.ToArray());
+				outputListBox.TopIndex = outputListBox.Items.Count - 1;
+
+				out_list.Clear();
+			});
+
 			Script.DefaultOptions.DebugPrint = s =>
 			{
 				out_list.Add(s);
@@ -55,17 +64,7 @@ namespace LuaInterpreter
 
 		private async void printVersion()
 		{
-			try
-			{
-				await runScript("print (_VERSION)");
-			}
-			finally
-			{
-				outputListBox.Items.AddRange(out_list.ToArray());
-				outputListBox.TopIndex = outputListBox.Items.Count - 1;
-
-				out_list.Clear();
-			}
+			await runScript("print (_VERSION)");
 		}
 
 		private Task runScript(string code)
@@ -75,12 +74,11 @@ namespace LuaInterpreter
 			return Task.Run(() =>
 				{
 					Stopwatch sw = new Stopwatch();
-					sw.Start();
-
 					t_work = Thread.CurrentThread;
 
 					try
 					{
+						sw.Start();
 						DynValue res = Script.RunString(code);
 						if (res.Type != DataType.Void)
 							out_list.Add("Return value : " + res.ToString());
@@ -93,9 +91,12 @@ namespace LuaInterpreter
 					{
 						out_list.Add(ex.Message);
 					}
-
-					sw.Stop();
-					out_list.Add("Script completed in : " + sw.ElapsedMilliseconds + "ms");
+					finally
+					{
+						sw.Stop();
+						out_list.Add("Script completed in : " + sw.ElapsedMilliseconds + "ms");
+						progress_mass.Report(true);
+					}
 				});
 		}
 
@@ -110,25 +111,14 @@ namespace LuaInterpreter
 			}
 			else
 			{
-				try
+				Task task = runScript(inputTextBox.Text);
+				if (task == await Task.WhenAny(task, Task.Delay(Convert.ToInt16(timeoutTextBox.Text))))
 				{
-					var task = runScript(inputTextBox.Text);
-					if (task == await Task.WhenAny(task, Task.Delay(Convert.ToInt16(timeoutTextBox.Text))))
-					{
-						await task;
-					}
-					else
-					{
-						t_work.Abort();
-						out_list.Add("Timeout reached, aborting...");
-					}
+					await task;
 				}
-				finally
+				else
 				{
-					outputListBox.Items.AddRange(out_list.ToArray());
-					outputListBox.TopIndex = outputListBox.Items.Count - 1;
-
-					out_list.Clear();
+					t_work.Abort();
 				}
 			}
 
