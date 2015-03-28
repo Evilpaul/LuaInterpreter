@@ -7,6 +7,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace LuaInterpreter
 {
@@ -15,11 +16,15 @@ namespace LuaInterpreter
 		private IProgress<string> progress_str;
 		private IProgress<bool> progress_hmi;
 
+		private List<string> out_list;
+
 		private Thread t_work;
 
 		public Form1()
 		{
 			InitializeComponent();
+
+			out_list = new List<string>();
 
 			progress_str = new Progress<string>(status =>
 			{
@@ -38,7 +43,7 @@ namespace LuaInterpreter
 
 			Script.DefaultOptions.DebugPrint = s =>
 			{
-				progress_str.Report(s);
+				out_list.Add(s);
 			};
 
 			progress_hmi.Report(false);
@@ -88,15 +93,25 @@ namespace LuaInterpreter
 			}
 			else
 			{
-				var task = runScript(inputTextBox.Text);
-				if (task == await Task.WhenAny(task, Task.Delay(Convert.ToInt16(timeoutTextBox.Text))))
+				try
 				{
-					await task;
+					var task = runScript(inputTextBox.Text);
+					if (task == await Task.WhenAny(task, Task.Delay(Convert.ToInt16(timeoutTextBox.Text))))
+					{
+						await task;
+					}
+					else
+					{
+						t_work.Abort();
+						progress_str.Report("Timeout reached, aborting...");
+					}
 				}
-				else
+				finally
 				{
-					t_work.Abort();
-					progress_str.Report("Timeout reached, aborting...");
+					outputListBox.Items.AddRange(out_list.ToArray());
+					outputListBox.TopIndex = outputListBox.Items.Count - 1;
+
+					out_list.Clear();
 				}
 			}
 
