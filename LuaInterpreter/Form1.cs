@@ -48,13 +48,30 @@ namespace LuaInterpreter
 
 			progress_hmi.Report(false);
 
-			runScript("print (_VERSION)");
+			printVersion();
 
 			progress_hmi.Report(true);
 		}
 
+		private async void printVersion()
+		{
+			try
+			{
+				await runScript("print (_VERSION)");
+			}
+			finally
+			{
+				outputListBox.Items.AddRange(out_list.ToArray());
+				outputListBox.TopIndex = outputListBox.Items.Count - 1;
+
+				out_list.Clear();
+			}
+		}
+
 		private Task runScript(string code)
 		{
+			out_list.Clear();
+
 			return Task.Run(() =>
 				{
 					Stopwatch sw = new Stopwatch();
@@ -66,19 +83,19 @@ namespace LuaInterpreter
 					{
 						DynValue res = Script.RunString(code);
 						if (res.Type != DataType.Void)
-							progress_str.Report("Return value : " + res.ToString());
+							out_list.Add("Return value : " + res.ToString());
 					}
 					catch (InterpreterException ex)
 					{
-						progress_str.Report(ex.DecoratedMessage);
+						out_list.Add(ex.DecoratedMessage);
 					}
 					catch (Exception ex)
 					{
-						progress_str.Report(ex.Message);
+						out_list.Add(ex.Message);
 					}
 
 					sw.Stop();
-					progress_str.Report("Script completed in : " + sw.ElapsedMilliseconds + "ms");
+					out_list.Add("Script completed in : " + sw.ElapsedMilliseconds + "ms");
 				});
 		}
 
@@ -103,7 +120,7 @@ namespace LuaInterpreter
 					else
 					{
 						t_work.Abort();
-						progress_str.Report("Timeout reached, aborting...");
+						out_list.Add("Timeout reached, aborting...");
 					}
 				}
 				finally
