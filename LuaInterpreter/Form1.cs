@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Windows.Forms;
-using MoonSharp.Interpreter;
-using System.Threading.Tasks;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Threading;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace LuaInterpreter
 {
@@ -15,17 +10,12 @@ namespace LuaInterpreter
 	{
 		private IProgress<string> progress_str;
 		private IProgress<bool> progress_hmi;
-		private IProgress<bool> progress_mass;
 
-		private List<string> out_list;
-
-		private Thread t_work;
+		private Worker worker;
 
 		public Form1()
 		{
 			InitializeComponent();
-
-			out_list = new List<string>();
 
 			progress_str = new Progress<string>(status =>
 			{
@@ -42,65 +32,14 @@ namespace LuaInterpreter
 				timeoutTextBox.Enabled = status;
 			});
 
-			progress_mass = new Progress<bool>(StatusBar =>
-			{
-				outputListBox.Items.AddRange(out_list.ToArray());
-				outputListBox.TopIndex = outputListBox.Items.Count - 1;
-
-				out_list.Clear();
-			});
-
-			Script.DefaultOptions.DebugPrint = s =>
-			{
-				out_list.Add(s);
-			};
+			worker = new Worker(ref outputListBox);
 
 			progress_hmi.Report(false);
-
-			printVersion();
-
+			worker.doScript("print (_VERSION)");
 			progress_hmi.Report(true);
 		}
 
-		private async void printVersion()
-		{
-			await runScript("print (_VERSION)");
-		}
-
-		private Task runScript(string code)
-		{
-			out_list.Clear();
-
-			return Task.Run(() =>
-				{
-					Stopwatch sw = new Stopwatch();
-					t_work = Thread.CurrentThread;
-
-					try
-					{
-						sw.Start();
-						DynValue res = Script.RunString(code);
-						if (res.Type != DataType.Void)
-							out_list.Add("Return value : " + res.ToString());
-					}
-					catch (InterpreterException ex)
-					{
-						out_list.Add(ex.DecoratedMessage);
-					}
-					catch (Exception ex)
-					{
-						out_list.Add(ex.Message);
-					}
-					finally
-					{
-						sw.Stop();
-						out_list.Add("Script completed in : " + sw.ElapsedMilliseconds + "ms");
-						progress_mass.Report(true);
-					}
-				});
-		}
-
-		private async void runButton_Click(object sender, EventArgs e)
+		private void runButton_Click(object sender, EventArgs e)
 		{
 			outputListBox.Items.Clear();
 			progress_hmi.Report(false);
@@ -111,15 +50,7 @@ namespace LuaInterpreter
 			}
 			else
 			{
-				Task task = runScript(inputTextBox.Text);
-				if (task == await Task.WhenAny(task, Task.Delay(Convert.ToInt16(timeoutTextBox.Text))))
-				{
-					await task;
-				}
-				else
-				{
-					t_work.Abort();
-				}
+				worker.doScript(inputTextBox.Text, Convert.ToInt32(timeoutTextBox.Text));
 			}
 
 			progress_hmi.Report(true);
