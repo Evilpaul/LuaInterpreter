@@ -32,7 +32,7 @@ namespace LuaInterpreter
 				timeoutTextBox.Enabled = status;
 			});
 
-			worker = new Worker(ref outputListBox);
+			worker = new Worker(ref outputListBox, progress_hmi);
 
 			progress_str.Report("MoonSharp " + Worker.getMoonsharpVersion());
 			progress_str.Report("Lua " + Worker.getLuaVersion());
@@ -41,7 +41,6 @@ namespace LuaInterpreter
 		private void runButton_Click(object sender, EventArgs e)
 		{
 			outputListBox.Items.Clear();
-			progress_hmi.Report(false);
 
 			if (String.IsNullOrEmpty(timeoutTextBox.Text))
 			{
@@ -51,8 +50,6 @@ namespace LuaInterpreter
 			{
 				worker.doScript(inputTextBox.Text, Convert.ToInt32(timeoutTextBox.Text));
 			}
-
-			progress_hmi.Report(true);
 		}
 
 		private void toolStripMenuItem_clear_Click(object sender, EventArgs e)

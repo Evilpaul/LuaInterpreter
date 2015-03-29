@@ -11,14 +11,16 @@ namespace LuaInterpreter
 	class Worker
 	{
 		private IProgress<bool> progress_mass;
+		private IProgress<bool> progress_hmi;
 		private Thread t_work;
 		private List<string> out_list;
 
 		private ListBox listb;
 
-		public Worker(ref ListBox lb)
+		public Worker(ref ListBox lb, IProgress<bool> prg_hmi)
 		{
 			listb = lb;
+			progress_hmi = prg_hmi;
 			out_list = new List<string>();
 
 			Script.DefaultOptions.DebugPrint = s =>
@@ -47,6 +49,7 @@ namespace LuaInterpreter
 
 		public async void doScript(string code, int timeout)
 		{
+			progress_hmi.Report(false);
 			Task task = runScript(code);
 			if (task == await Task.WhenAny(task, Task.Delay(timeout)))
 			{
@@ -56,11 +59,7 @@ namespace LuaInterpreter
 			{
 				abortScript();
 			}
-		}
-
-		public async void doScript(string code)
-		{
-			await runScript(code);
+			progress_hmi.Report(true);
 		}
 
 		private Task runScript(string code)
