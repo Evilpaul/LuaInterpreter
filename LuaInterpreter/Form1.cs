@@ -34,9 +34,8 @@ namespace LuaInterpreter
 
 			worker = new Worker(ref outputListBox);
 
-			progress_hmi.Report(false);
-			worker.doScript("print (_VERSION)");
-			progress_hmi.Report(true);
+			progress_str.Report("MoonSharp " + Worker.getMoonsharpVersion());
+			progress_str.Report("Lua " + Worker.getLuaVersion());
 		}
 
 		private void runButton_Click(object sender, EventArgs e)

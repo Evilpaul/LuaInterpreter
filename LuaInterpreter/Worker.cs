@@ -35,6 +35,16 @@ namespace LuaInterpreter
 			});
 		}
 
+		public static string getMoonsharpVersion()
+		{
+			return Script.VERSION;
+		}
+
+		public static string getLuaVersion()
+		{
+			return Script.LUA_VERSION;
+		}
+
 		public async void doScript(string code, int timeout)
 		{
 			Task task = runScript(code);
