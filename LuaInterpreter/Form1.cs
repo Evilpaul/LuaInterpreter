@@ -32,7 +32,7 @@ namespace LuaInterpreter
 				timeoutTextBox.Enabled = status;
 			});
 
-			worker = new Worker(ref outputListBox, progress_hmi);
+			worker = new Worker(outputListBox, progress_hmi);
 
 			progress_str.Report("MoonSharp " + Worker.getMoonsharpVersion());
 			progress_str.Report("Lua " + Worker.getLuaVersion());

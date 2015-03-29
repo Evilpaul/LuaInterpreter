@@ -17,7 +17,7 @@ namespace LuaInterpreter
 
 		private ListBox listb;
 
-		public Worker(ref ListBox lb, IProgress<bool> prg_hmi)
+		public Worker(ListBox lb, IProgress<bool> prg_hmi)
 		{
 			listb = lb;
 			progress_hmi = prg_hmi;
