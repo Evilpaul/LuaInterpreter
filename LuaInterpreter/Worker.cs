@@ -30,6 +30,8 @@ namespace LuaInterpreter
 			{
 				listb.Items.AddRange(out_list.ToArray());
 				listb.TopIndex = listb.Items.Count - 1;
+
+				out_list.Clear();
 			});
 		}
 
