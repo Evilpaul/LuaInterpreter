@@ -30,7 +30,7 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.inputGroupBox = new System.Windows.Forms.GroupBox();
-			this.inputTextBox = new System.Windows.Forms.TextBox();
+			this.inputTextBox = new ICSharpCode.TextEditor.TextEditorControlEx();
 			this.outputGroupBox = new System.Windows.Forms.GroupBox();
 			this.outputListBox = new System.Windows.Forms.ListBox();
 			this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -71,20 +71,18 @@
 			// 
 			// inputTextBox
 			// 
-			this.inputTextBox.AcceptsReturn = true;
-			this.inputTextBox.AcceptsTab = true;
+			this.inputTextBox.Cursor = System.Windows.Forms.Cursors.Default;
 			this.inputTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.inputTextBox.EnableFolding = false;
+			this.inputTextBox.FoldingStrategy = "CSharp";
 			this.inputTextBox.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.inputTextBox.Location = new System.Drawing.Point(3, 16);
-			this.inputTextBox.MaxLength = 1677215;
-			this.inputTextBox.Multiline = true;
 			this.inputTextBox.Name = "inputTextBox";
-			this.inputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.inputTextBox.Size = new System.Drawing.Size(578, 291);
-			this.inputTextBox.TabIndex = 0;
+			this.inputTextBox.SyntaxHighlighting = "Lua";
+			this.inputTextBox.TabIndex = 1;
 			this.inputTextBox.Text = "-- defines a factorial function\r\nfunction fact (n)\r\n\tif (n == 0) then\r\n\t\treturn 1" +
     "\r\n\telse\r\n\t\treturn n*fact(n - 1)\r\n\tend\r\nend\r\n\r\nreturn fact(5)";
-			this.inputTextBox.WordWrap = false;
 			// 
 			// outputGroupBox
 			// 
@@ -130,7 +128,7 @@
 			// 
 			this.timeoutTextBox.ContextMenuStrip = this.contextMenuStrip1;
 			this.timeoutTextBox.Location = new System.Drawing.Point(132, 2);
-			this.timeoutTextBox.MinimumSize = new System.Drawing.Size(0, 20);
+			this.timeoutTextBox.MinimumSize = new System.Drawing.Size(4, 20);
 			this.timeoutTextBox.Name = "timeoutTextBox";
 			this.timeoutTextBox.Size = new System.Drawing.Size(100, 20);
 			this.timeoutTextBox.TabIndex = 4;
@@ -248,7 +246,6 @@
 			this.Name = "Form1";
 			this.Text = "Lua Interpreter";
 			this.inputGroupBox.ResumeLayout(false);
-			this.inputGroupBox.PerformLayout();
 			this.outputGroupBox.ResumeLayout(false);
 			this.contextMenuStrip.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
@@ -267,7 +264,6 @@
 		private System.Windows.Forms.GroupBox inputGroupBox;
 		private System.Windows.Forms.GroupBox outputGroupBox;
 		private System.Windows.Forms.ListBox outputListBox;
-		private System.Windows.Forms.TextBox inputTextBox;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem_clear;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
@@ -280,6 +276,7 @@
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.SplitContainer splitContainer1;
+		private ICSharpCode.TextEditor.TextEditorControlEx inputTextBox;
 		private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
 
 	}

@@ -77,7 +77,7 @@ namespace LuaInterpreter
 
 				using (StreamReader sr = new StreamReader(openFileDialog.FileName))
 				{
-					StringBuilder sb = new StringBuilder(inputTextBox.MaxLength);
+					StringBuilder sb = new StringBuilder();
 					string currLine;
 
 					outputListBox.Items.Clear();
