@@ -57,6 +57,16 @@ namespace LuaInterpreter
 			outputListBox.Items.Clear();
 		}
 
+		private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach (object row in outputListBox.SelectedItems)
+			{
+				sb.AppendLine(row.ToString());
+			}
+			Clipboard.SetText(sb.ToString());
+		}
+
 		private async void openFileButton_Click(object sender, EventArgs e)
 		{
 			// Show the dialog and get result.

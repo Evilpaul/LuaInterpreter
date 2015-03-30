@@ -46,6 +46,7 @@
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.inputGroupBox.SuspendLayout();
 			this.outputGroupBox.SuspendLayout();
 			this.contextMenuStrip.SuspendLayout();
@@ -106,15 +107,17 @@
 			this.outputListBox.ItemHeight = 16;
 			this.outputListBox.Location = new System.Drawing.Point(3, 16);
 			this.outputListBox.Name = "outputListBox";
+			this.outputListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.outputListBox.Size = new System.Drawing.Size(578, 56);
 			this.outputListBox.TabIndex = 0;
 			// 
 			// contextMenuStrip
 			// 
 			this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem_clear});
+            this.toolStripMenuItem_clear,
+            this.copyToolStripMenuItem});
 			this.contextMenuStrip.Name = "contextMenuStrip";
-			this.contextMenuStrip.Size = new System.Drawing.Size(102, 26);
+			this.contextMenuStrip.Size = new System.Drawing.Size(153, 70);
 			// 
 			// toolStripMenuItem_clear
 			// 
@@ -227,6 +230,13 @@
 			this.splitContainer1.SplitterDistance = 310;
 			this.splitContainer1.TabIndex = 3;
 			// 
+			// copyToolStripMenuItem
+			// 
+			this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+			this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.copyToolStripMenuItem.Text = "Copy";
+			this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -270,6 +280,7 @@
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.SplitContainer splitContainer1;
+		private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
 
 	}
 }
