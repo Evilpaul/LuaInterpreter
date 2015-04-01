@@ -29,7 +29,7 @@ namespace LuaInterpreter
 				inputTextBox.Enabled = status;
 				openFileButton.Enabled = status;
 				saveFileButton.Enabled = status;
-				timeoutTextBox.Enabled = status;
+				timeoutNumericUpDown.Enabled = status;
 			});
 
 			worker = new Worker(outputListBox, progress_hmi);
@@ -42,13 +42,13 @@ namespace LuaInterpreter
 		{
 			outputListBox.Items.Clear();
 
-			if (String.IsNullOrEmpty(timeoutTextBox.Text))
+			if (String.IsNullOrEmpty(timeoutNumericUpDown.Text))
 			{
 				progress_str.Report("Timeout value is invalid");
 			}
 			else
 			{
-				worker.doScript(inputTextBox.Text, Convert.ToInt32(timeoutTextBox.Text));
+				worker.doScript(inputTextBox.Text, Convert.ToInt32(timeoutNumericUpDown.Value));
 			}
 		}
 
@@ -113,14 +113,6 @@ namespace LuaInterpreter
 				}
 
 				progress_hmi.Report(true);
-			}
-		}
-
-		private void timeoutTextBox_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (!Regex.IsMatch(e.KeyChar.ToString(), "^[0-9\b]+$"))
-			{
-				e.Handled = true;
 			}
 		}
 	}

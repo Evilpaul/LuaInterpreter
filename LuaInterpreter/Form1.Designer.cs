@@ -35,7 +35,7 @@
 			this.outputListBox = new System.Windows.Forms.ListBox();
 			this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuItem_clear = new System.Windows.Forms.ToolStripMenuItem();
-			this.timeoutTextBox = new System.Windows.Forms.TextBox();
+			this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.timeoutLabel = new System.Windows.Forms.Label();
 			this.runButton = new System.Windows.Forms.Button();
@@ -46,7 +46,7 @@
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.timeoutNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.inputGroupBox.SuspendLayout();
 			this.outputGroupBox.SuspendLayout();
 			this.contextMenuStrip.SuspendLayout();
@@ -55,6 +55,7 @@
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.timeoutNumericUpDown)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// inputGroupBox
@@ -115,27 +116,21 @@
             this.toolStripMenuItem_clear,
             this.copyToolStripMenuItem});
 			this.contextMenuStrip.Name = "contextMenuStrip";
-			this.contextMenuStrip.Size = new System.Drawing.Size(153, 70);
+			this.contextMenuStrip.Size = new System.Drawing.Size(103, 48);
 			// 
 			// toolStripMenuItem_clear
 			// 
 			this.toolStripMenuItem_clear.Name = "toolStripMenuItem_clear";
-			this.toolStripMenuItem_clear.Size = new System.Drawing.Size(101, 22);
+			this.toolStripMenuItem_clear.Size = new System.Drawing.Size(102, 22);
 			this.toolStripMenuItem_clear.Text = "Clear";
 			this.toolStripMenuItem_clear.Click += new System.EventHandler(this.toolStripMenuItem_clear_Click);
 			// 
-			// timeoutTextBox
+			// copyToolStripMenuItem
 			// 
-			this.timeoutTextBox.ContextMenuStrip = this.contextMenuStrip1;
-			this.timeoutTextBox.Location = new System.Drawing.Point(132, 2);
-			this.timeoutTextBox.MinimumSize = new System.Drawing.Size(4, 20);
-			this.timeoutTextBox.Name = "timeoutTextBox";
-			this.timeoutTextBox.Size = new System.Drawing.Size(100, 20);
-			this.timeoutTextBox.TabIndex = 4;
-			this.timeoutTextBox.Text = "500";
-			this.toolTip1.SetToolTip(this.timeoutTextBox, "Nominal timout in millisceconds\r\n\r\nHigh processing (especially text output) will " +
-        "skew the actual timout period.");
-			this.timeoutTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.timeoutTextBox_KeyPress);
+			this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+			this.copyToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
+			this.copyToolStripMenuItem.Text = "Copy";
+			this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
 			// 
 			// contextMenuStrip1
 			// 
@@ -197,7 +192,7 @@
 			// 
 			// panel2
 			// 
-			this.panel2.Controls.Add(this.timeoutTextBox);
+			this.panel2.Controls.Add(this.timeoutNumericUpDown);
 			this.panel2.Controls.Add(this.saveFileButton);
 			this.panel2.Controls.Add(this.timeoutLabel);
 			this.panel2.Controls.Add(this.openFileButton);
@@ -228,12 +223,23 @@
 			this.splitContainer1.SplitterDistance = 310;
 			this.splitContainer1.TabIndex = 3;
 			// 
-			// copyToolStripMenuItem
+			// timeoutNumericUpDown
 			// 
-			this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-			this.copyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.copyToolStripMenuItem.Text = "Copy";
-			this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+			this.timeoutNumericUpDown.ContextMenuStrip = this.contextMenuStrip1;
+			this.timeoutNumericUpDown.Location = new System.Drawing.Point(132, 3);
+			this.timeoutNumericUpDown.Maximum = new decimal(new int[] {
+            16777215,
+            0,
+            0,
+            0});
+			this.timeoutNumericUpDown.Name = "timeoutNumericUpDown";
+			this.timeoutNumericUpDown.Size = new System.Drawing.Size(120, 20);
+			this.timeoutNumericUpDown.TabIndex = 5;
+			this.timeoutNumericUpDown.Value = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
 			// 
 			// Form1
 			// 
@@ -254,6 +260,7 @@
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.timeoutNumericUpDown)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -270,7 +277,6 @@
 		private System.Windows.Forms.SaveFileDialog saveFileDialog;
 		private System.Windows.Forms.Button openFileButton;
 		private System.Windows.Forms.Button saveFileButton;
-		private System.Windows.Forms.TextBox timeoutTextBox;
 		private System.Windows.Forms.ToolTip toolTip1;
 		private System.Windows.Forms.Label timeoutLabel;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
@@ -278,6 +284,7 @@
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private ICSharpCode.TextEditor.TextEditorControlEx inputTextBox;
 		private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
+		private System.Windows.Forms.NumericUpDown timeoutNumericUpDown;
 
 	}
 }
