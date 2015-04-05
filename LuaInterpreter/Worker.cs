@@ -14,7 +14,7 @@ namespace LuaInterpreter
 		private IProgress<bool> progress_hmi;
 		private Thread t_work;
 		private List<string> out_list;
-
+		private Stopwatch sw;
 		private ListBox listb;
 
 		public Worker(ListBox lb, IProgress<bool> prg_hmi)
@@ -22,10 +22,11 @@ namespace LuaInterpreter
 			listb = lb;
 			progress_hmi = prg_hmi;
 			out_list = new List<string>();
+			sw = new Stopwatch();
 
 			Script.DefaultOptions.DebugPrint = s =>
 			{
-				out_list.Add(s);
+				out_list.Add(sw.ElapsedTicks + " | " + s);
 			};
 
 			progress_mass = new Progress<bool>(StatusBar =>
@@ -68,12 +69,11 @@ namespace LuaInterpreter
 
 			return Task.Run(() =>
 			{
-				Stopwatch sw = new Stopwatch();
 				t_work = Thread.CurrentThread;
 
 				try
 				{
-					sw.Start();
+					sw.Restart();
 					DynValue res = Script.RunString(code);
 					if (res.Type != DataType.Void)
 						out_list.Add("Return value : " + res.ToString());
